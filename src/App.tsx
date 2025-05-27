@@ -1,40 +1,57 @@
-import { useEffect, useState } from "react";
-import type { Schema } from "../amplify/data/resource";
-import { generateClient } from "aws-amplify/data";
+import './App.css'
 
-const client = generateClient<Schema>();
+const links = [
+  {
+    name: 'X',
+    href: 'https://x.com/gravitas580',
+    icon: '/icons/x.svg',
+  },
+  {
+    name: 'Qiita',
+    href: 'https://qiita.com/Gravitas',
+    icon: '/icons/qiita.svg',
+  },
+  {
+    name: 'SpeakerDeck',
+    href: 'https://speakerdeck.com/hibikisuaga',
+    icon: '/icons/speakerdeck.svg',
+  },
+  {
+    name: 'GitHub',
+    href: 'https://github.com/gravitas580',
+    icon: '/icons/github.svg',
+  },
+  {
+    name: 'LinkedIn',
+    href: '#', // 後でURL追加してね
+    icon: '/icons/linkedin.svg',
+  },
+]
 
 function App() {
-  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
-
-  useEffect(() => {
-    client.models.Todo.observeQuery().subscribe({
-      next: (data) => setTodos([...data.items]),
-    });
-  }, []);
-
-  function createTodo() {
-    client.models.Todo.create({ content: window.prompt("Todo content") });
-  }
-
   return (
-    <main>
-      <h1>My todos</h1>
-      <button onClick={createTodo}>+ new</button>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>{todo.content}</li>
+    <div className="container">
+      <header>
+        <h1>Hibiki</h1>
+        <p className="subtitle">AWS好きなインフラエンジニア 🚀</p>
+      </header>
+
+      <div className="link-grid">
+        {links.map((link) => (
+          <a
+            key={link.name}
+            className="link-card"
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src={link.icon} alt={`${link.name} icon`} />
+            <span>{link.name}</span>
+          </a>
         ))}
-      </ul>
-      <div>
-        🥳 App successfully hosted. Try creating a new todo.
-        <br />
-        <a href="https://docs.amplify.aws/react/start/quickstart/#make-frontend-updates">
-          Review next step of this tutorial.
-        </a>
       </div>
-    </main>
-  );
+    </div>
+  )
 }
 
-export default App;
+export default App
