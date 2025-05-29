@@ -1,5 +1,3 @@
-// src/data/links.ts
-
 export const links = [
   {
     name: "X",
